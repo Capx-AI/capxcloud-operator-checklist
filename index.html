@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>CapX Cloud Operator Checklist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load ethers.js first -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.2.0/ethers.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              dark: {
+                bg: "#000000",
+                card: "#121212",
+                border: "#2D2D2D",
+                itembg: "#1E1E1E",
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-dark-bg min-h-screen text-white">
+    <!-- Navbar -->
+    <div class="bg-dark-bg border-b border-dark-border">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <img
+            src="logo.png"
+            alt="CapX Cloud Logo"
+            class="h-8 w-auto"
+          />
+          <!-- Network Toggle -->
+          <div class="flex items-center space-x-2">
+            <span class="text-sm text-gray-400">Mainnet</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                id="networkToggle"
+                class="sr-only peer"
+              />
+              <div
+                class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+              ></div>
+              <span class="ml-3 text-sm text-gray-400">Testnet</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-2xl">
+      <h1 class="text-2xl sm:text-3xl font-bold mb-8">Operator Checklist</h1>
+
+      <!-- Input Section -->
+      <div class="bg-dark-card rounded-lg shadow-md p-6 mb-8 border border-dark-border">
+        <div class="flex gap-4">
+          <input
+            type="text"
+            id="operatorAddress"
+            placeholder="Enter operator address (0x...)"
+            class="flex-1 px-4 py-2 bg-dark-bg border border-dark-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white placeholder-gray-400"
+          />
+          <button
+            id="checkButton"
+            class="px-6 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Check Status
+          </button>
+        </div>
+      </div>
+
+      <!-- Checklist Section -->
+      <div
+        id="checklist"
+        class="bg-dark-card rounded-lg shadow-md p-6 border border-dark-border"
+      >
+        <div class="space-y-4">
+          <!-- Symbiotic Registration -->
+          <div class="flex items-center justify-between p-4 bg-dark-itembg rounded-lg border border-dark-border">
+            <div>
+              <h3 class="font-semibold">Symbiotic Registration</h3>
+              <p class="text-sm text-gray-400">Must be registered with Symbiotic</p>
+            </div>
+            <div
+              id="symbiotic-registration-status"
+              class="text-gray-400"
+            >
+              <span class="animate-spin hidden">⌛</span>
+              <span class="check hidden">✓</span>
+              <span class="cross hidden">✗</span>
+            </div>
+          </div>
+
+          <!-- Symbiotic Opt-in -->
+          <div class="flex items-center justify-between p-4 bg-dark-itembg rounded-lg border border-dark-border">
+            <div>
+              <h3 class="font-semibold">Symbiotic Opt-in</h3>
+              <p class="text-sm text-gray-400">Must have opted into Symbiotic network</p>
+            </div>
+            <div
+              id="symbiotic-optin-status"
+              class="text-gray-400"
+            >
+              <span class="animate-spin hidden">⌛</span>
+              <span class="check hidden">✓</span>
+              <span class="cross hidden">✗</span>
+            </div>
+          </div>
+
+          <!-- Network Registration -->
+          <div class="flex items-center justify-between p-4 bg-dark-itembg rounded-lg border border-dark-border">
+            <div>
+              <h3 class="font-semibold">Network Registration</h3>
+              <p class="text-sm text-gray-400">Must be registered with CapX network</p>
+            </div>
+            <div
+              id="network-registration-status"
+              class="text-gray-400"
+            >
+              <span class="animate-spin hidden">⌛</span>
+              <span class="check hidden">✓</span>
+              <span class="cross hidden">✗</span>
+            </div>
+          </div>
+
+          <!-- Stake Delegation -->
+          <div class="flex items-center justify-between p-4 bg-dark-itembg rounded-lg border border-dark-border">
+            <div>
+              <h3 class="font-semibold">Stake Delegation</h3>
+              <p class="text-sm text-gray-400">Must have delegated stake</p>
+            </div>
+            <div
+              id="stake-delegation-status"
+              class="text-gray-400"
+            >
+              <span class="animate-spin hidden">⌛</span>
+              <span class="check hidden">✓</span>
+              <span class="cross hidden">✗</span>
+            </div>
+          </div>
+
+          <!-- Active Status -->
+          <div class="flex items-center justify-between p-4 bg-dark-itembg rounded-lg border border-dark-border">
+            <div>
+              <h3 class="font-semibold">Active Status</h3>
+              <p class="text-sm text-gray-400">Must be active in the system</p>
+            </div>
+            <div
+              id="active-status"
+              class="text-gray-400"
+            >
+              <span class="animate-spin hidden">⌛</span>
+              <span class="check hidden">✓</span>
+              <span class="cross hidden">✗</span>
+            </div>
+          </div>
+
+          <!-- L2 Voting Power -->
+          <div class="flex items-center justify-between p-4 bg-dark-itembg rounded-lg border border-dark-border">
+            <div>
+              <h3 class="font-semibold">L2 Voting Power</h3>
+              <p class="text-sm text-gray-400">Must have voting power reflected on L2</p>
+              <p
+                id="l2VotingPowerWarning"
+                class="text-sm text-yellow-500 hidden"
+              >
+                Your voting power needs to be synced to L2, please contact CapXCloud team
+              </p>
+            </div>
+            <div
+              id="l2-voting-power-status"
+              class="text-gray-400"
+            >
+              <span class="animate-spin hidden">⌛</span>
+              <span class="check hidden">✓</span>
+              <span class="cross hidden">✗</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Message (hidden by default) -->
+      <div
+        id="successMessage"
+        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-700 text-white px-8 py-4 rounded-lg shadow-lg hidden"
+      >
+        <div class="flex items-center">
+          <span class="text-2xl mr-2">🎉</span>
+          <span class="text-xl font-bold">All Checks Passed!</span>
+        </div>
+        <p class="mt-2">Operator is fully configured and ready to go.</p>
+      </div>
+    </div>
+
+    <!-- Load our script last -->
+    <script src="script.js"></script>
+  </body>
+</html>
