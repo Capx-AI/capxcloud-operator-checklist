@@ -182,11 +182,31 @@ function triggerSuccess() {
   }, 5000);
 }
 
-// Get current network selection
+// Get current network based on UI state
 function getCurrentNetwork() {
-  const networkToggle = document.getElementById("networkToggle");
-  return networkToggle.checked ? "testnet" : "mainnet";
+  const mainnetButton = document.getElementById("mainnetButton");
+  return mainnetButton.classList.contains("bg-black") ? "mainnet" : "testnet";
 }
+
+// Initialize network selection
+document.addEventListener("DOMContentLoaded", function () {
+  const mainnetButton = document.getElementById("mainnetButton");
+  const testnetButton = document.getElementById("testnetButton");
+
+  mainnetButton.addEventListener("click", () => {
+    mainnetButton.classList.add("bg-black", "text-white");
+    mainnetButton.classList.remove("text-gray-400");
+    testnetButton.classList.remove("bg-black", "text-white");
+    testnetButton.classList.add("text-gray-400");
+  });
+
+  testnetButton.addEventListener("click", () => {
+    testnetButton.classList.add("bg-black", "text-white");
+    testnetButton.classList.remove("text-gray-400");
+    mainnetButton.classList.remove("bg-black", "text-white");
+    mainnetButton.classList.add("text-gray-400");
+  });
+});
 
 // Main function to check operator status
 async function checkOperator() {
