@@ -97,8 +97,8 @@ const ABIS = {
 // Provider setup
 const providers = {
   mainnet: {
-    l1: new ethers.providers.JsonRpcProvider("https://eth-mainnet.g.alchemy.com/v2/cfbG2jJdddQ1A64OaB3C0uV60A9qM_KD"),
-    l2: new ethers.providers.JsonRpcProvider("https://arb-mainnet.g.alchemy.com/v2/cfbG2jJdddQ1A64OaB3C0uV60A9qM_KD"),
+    l1: new ethers.providers.JsonRpcProvider("https://solemn-newest-grass.quiknode.pro/f6e538180095abe7df6734bdbbb8903e45732a5f/"),
+    l2: new ethers.providers.JsonRpcProvider("https://icy-necessary-diamond.arbitrum-mainnet.quiknode.pro/cad2ea69dd2982f8d8e68d1b7bd7f02000d72dad/"),
   },
   testnet: {
     l1: new ethers.providers.JsonRpcProvider("https://eth-holesky.g.alchemy.com/v2/cfbG2jJdddQ1A64OaB3C0uV60A9qM_KD"),
